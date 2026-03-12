@@ -1,0 +1,12 @@
+dataset: configs/datasets/EuRoC/Euroc_body.conf
+device: cuda:0
+
+exp:
+  airimu_exp: /home/w/Air-IO/experiments/euroc/AirIMU_EuRoC/net_output_cov_1000.pickle
+  airio_exp: /home/w/Air-IO/experiments/euroc/motion_body_rot/net_output_inte_1000.pickle
+  savedir: ./EKFresult
+
+train:
+  bias_weight: 1.0e-12
+  imu_cov_scale: 100.0
+  obs_cov_scale: 0.1

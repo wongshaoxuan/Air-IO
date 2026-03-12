@@ -28,7 +28,7 @@ if __name__ == '__main__':
 
     # Load the network results
     if args.exp is not None:
-        net_result_path = os.path.join(args.exp, 'net_output.pickle')
+        net_result_path = os.path.join(args.exp)
         if os.path.isfile(net_result_path):
             with open(net_result_path, 'rb') as handle:
                 inference_state_load = CPU_Unpickler(handle).load()

@@ -86,7 +86,7 @@ class EKF_runner():
 
 def load_results(path):
     if path is not None:
-        result_path = os.path.join(path, 'net_output.pickle')
+        result_path = os.path.join(path)
         if os.path.isfile(result_path):
             with open(result_path, 'rb') as handle:
                 state_load = CPU_Unpickler(handle).load()
@@ -131,7 +131,7 @@ if __name__ == '__main__':
         print(data_conf)
         for data_name in data_conf.data_drive:
             print(data_conf.data_root, data_name)
-            inference_state = airimu_ori_load[data_name] 
+            inference_state = inference_state_load[data_name]   # changed from airimu_ori_load to inference_state_load, since airio seem to have no effect on final EKF result
             dataset_inf = SeqInfDataset(data_conf.data_root, data_name, inference_state, device = device, name = data_conf.name,duration=1, step_size=1, drop_last=False, conf = dataset_conf)
             infloader = Data.DataLoader(dataset=dataset_inf, batch_size=1, 
                                             collate_fn=imu_seq_collate, 

@@ -14,7 +14,6 @@ from datasets import collate_fcs, SeqeuncesMotionDataset
 from model import net_dict
 from utils import *
 
-
 def inference(network, loader, confs):
     '''
     Correction inference
@@ -98,7 +97,7 @@ if __name__ == '__main__':
             inference_state['net_vel'] = inference_state['net_vel'][0] #TODO: batch size != 1
             net_out_result[path] = inference_state
 
-    net_result_path = os.path.join(conf.general.exp_dir, 'net_output.pickle')
+    net_result_path = os.path.join(conf.general.exp_dir, 'net_output_100.pickle')
     print("save netout, ", net_result_path)
     with open(net_result_path, 'wb') as handle:
         pickle.dump(net_out_result, handle, protocol=pickle.HIGHEST_PROTOCOL)

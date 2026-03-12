@@ -150,7 +150,7 @@ if __name__ == '__main__':
     obs_weight = 1e-1
     
     if args.exp is not None:
-        net_result_path = os.path.join(args.exp, 'net_output.pickle')
+        net_result_path = os.path.join(args.exp)
         if os.path.isfile(net_result_path):
             with open(net_result_path, 'rb') as handle:
                 inference_state_load = CPU_Unpickler(handle).load()
@@ -158,7 +158,7 @@ if __name__ == '__main__':
             raise Exception(f"Unable to load the network result: {net_result_path}")
 
     if args.airimu_exp is not None:
-        airimu_ori_path = os.path.join(args.airimu_exp, 'net_output.pickle')
+        airimu_ori_path = os.path.join(args.airimu_exp)
         if os.path.isfile(airimu_ori_path):
             with open(airimu_ori_path, 'rb') as handle:
                 airimu_ori_load = CPU_Unpickler(handle).load()
