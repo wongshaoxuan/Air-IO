@@ -50,7 +50,7 @@ if __name__ == '__main__':
             print("data_conf.name", data_conf.name)
 
             motion_dataset = SeqDataset(data_conf.data_root, data_name, args.device, name = data_conf.name, duration=args.seqlen, step_size=args.seqlen, drop_last=False, conf = dataset_conf)
-            
+            print("motion_dataset.data.keys():", motion_dataset.data.keys()) # --- IGNORE ---
             if args.exp is not None:
                 if data_conf.name == "BlackBird":
                     data_name = os.path.dirname(data_name).split('/')[1]

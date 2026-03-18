@@ -91,7 +91,7 @@ if __name__ == '__main__':
                 save_prefix = data_name
             visualize_rotations(save_prefix,outstate['orientations_gt'][0],outstate['orientations'][0],inf_rot=infstate['orientations'][0],save_folder=folder)
 
-        net_result_path = os.path.join(folder, 'orientation_output.pickle')
+        net_result_path = os.path.join(folder, 'orientation_output_100.pickle')   
         print("save orientation, ", net_result_path)
         with open(net_result_path, 'wb') as handle:
             pickle.dump(save_states, handle, protocol=pickle.HIGHEST_PROTOCOL)

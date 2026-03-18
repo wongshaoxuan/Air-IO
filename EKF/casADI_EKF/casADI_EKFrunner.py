@@ -131,7 +131,8 @@ if __name__ == '__main__':
         print(data_conf)
         for data_name in data_conf.data_drive:
             print(data_conf.data_root, data_name)
-            inference_state = inference_state_load[data_name]   # changed from airimu_ori_load to inference_state_load, since airio seem to have no effect on final EKF result
+            inference_state = airimu_ori_load[data_name]   # changed from airimu_ori_load to inference_state_load, since airio seem to have no effect on final EKF result
+            print("inference_state keys: ", inference_state.keys())    # --- IGNORE ---
             dataset_inf = SeqInfDataset(data_conf.data_root, data_name, inference_state, device = device, name = data_conf.name,duration=1, step_size=1, drop_last=False, conf = dataset_conf)
             infloader = Data.DataLoader(dataset=dataset_inf, batch_size=1, 
                                             collate_fn=imu_seq_collate, 
@@ -146,7 +147,7 @@ if __name__ == '__main__':
             
             # dict_keys(['cov', 'net_vel', 'ts'])
             io_result = inference_state_load[data_name]
-
+            print("io_result keys: ", io_result.keys())    # --- IGNORE ---
             ekf = EKF_runner()
             
             # STEP 1 state initialization
@@ -163,8 +164,10 @@ if __name__ == '__main__':
             gt_state = {"pos": [], "vel": [], "rot": []}
             
             t_range = tqdm.tqdm(dataset_inf)
+
             prev_gt_vel = None
             prev_gt_rot = None
+            print("dataset_inf.data.keys():", dataset_inf.data.keys()) # --- IGNORE ---
             for data in t_range:
                 # add the measurement of the airimu 
                 imu_data = {"gyro": data["gyro"][0], "acc": data["acc"][0], "dt": data["dt"][0]}

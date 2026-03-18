@@ -115,7 +115,7 @@ class SeqInfDataset(SeqDataset):
         step_size=200,
         drop_last=True,
         mode="inference",
-        usecov=True,
+        usecov=True,    # Change 1: False if using raw imu integration
         useraw=False,
         usetimecut=False,
         conf={},
@@ -126,7 +126,29 @@ class SeqInfDataset(SeqDataset):
         time_cut = 0
         if usetimecut:
             time_cut = self.seq.time_cut
+        # Change 2:
+        '''
         if "correction_acc" in inference_state.keys() and not useraw:
+            self.data["acc"][:-1] += inference_state["correction_acc"][:, time_cut:].cpu()[0]
+            self.data["gyro"][:-1] += inference_state["correction_gyro"][:, time_cut:].cpu()[0]
+        '''
+        # The corrected_acc and corrected_gyro is the direct output of the network, while correction_acc and correction_gyro is the added correction on top of raw data.
+        # So if we have the direct output, we use it to replace the raw data, otherwise we add the correction on top of raw data.
+        print("inference_state keys: ", inference_state.keys())    # --- IGNORE ---
+        print("useraw: ", useraw)   # --- IGNORE ---
+        print("usecov: ", usecov)   # --- IGNORE ---
+        if not useraw and "corrected_acc" in inference_state.keys():
+            corrected_acc = torch.as_tensor(inference_state["corrected_acc"]).detach().cpu()
+            corrected_gyro = torch.as_tensor(inference_state["corrected_gyro"]).detach().cpu()
+
+            if corrected_acc.dim() == 3:
+                corrected_acc = corrected_acc[0]
+            if corrected_gyro.dim() == 3:
+                corrected_gyro = corrected_gyro[0]
+
+            self.data["acc"][:-1] = corrected_acc[time_cut:].to(dtype=self.data["acc"].dtype)
+            self.data["gyro"][:-1] = corrected_gyro[time_cut:].to(dtype=self.data["gyro"].dtype)
+        elif "correction_acc" in inference_state.keys() and not useraw:
             self.data["acc"][:-1] += inference_state["correction_acc"][:, time_cut:].cpu()[0]
             self.data["gyro"][:-1] += inference_state["correction_gyro"][:, time_cut:].cpu()[0]
 

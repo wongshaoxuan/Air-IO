@@ -1,9 +1,9 @@
-dataset: configs/datasets/EuRoC/Euroc_body.conf
+dataset: configs/datasets/EuRoC/Euroc_global.conf
 device: cuda:0
 
 exp:
-  airimu_exp: /home/w/Air-IO/experiments/euroc/AirIMU_EuRoC/net_output_cov_1000.pickle
-  airio_exp: /home/w/Air-IO/experiments/euroc/motion_body_rot/net_output_inte_1000.pickle
+  airimu_exp: /home/w/Air-IO/experiments/euroc/AirIMU_EuRoC/net_output_100.pickle
+  airio_exp: /home/w/Air-IO/experiments/euroc/motion_body_rot/net_output_100.pickle
   savedir: ./EKFresult
 
 train:

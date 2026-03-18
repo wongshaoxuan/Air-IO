@@ -44,7 +44,7 @@ if __name__ == '__main__':
 
 
     if args.exp is not None:
-        net_result_path = os.path.join(args.exp)
+        net_result_path = os.path.join(args.exp)    # (args.exp, "net_output.pickle") --- IGNORE ---
         if os.path.isfile(net_result_path):
             with open(net_result_path, 'rb') as handle:
                 inference_state_load = CPU_Unpickler(handle).load()
@@ -102,17 +102,8 @@ if __name__ == '__main__':
                 if "coordinate" in dataset_conf.keys():
                     print("*************",dataset_conf["coordinate"],"*************")
                     if dataset_conf["coordinate"] == "body_coord":
-                        # Use AirIMU's predicted orientation instead of ground truth for rotation
-                        if airimu_inference_state_load is not None:
-                            # Use AirIMU's predicted orientation instead of ground truth
-                            airimu_inference_state = airimu_inference_state_load[data_name]
-                            airimu_ts = airimu_inference_state['ts']
-                            airimu_rot = airimu_inference_state['orientation']  # Assuming 'orientation' key exists
-                            rotation = interp_xyz(gt_ts, airimu_ts[:,0], airimu_rot)
-                        else:
-                            # Fallback to GT if no AirIMU provided
-                            rotation = motion_dataset.data['gt_orientation'] # Set data['gt_orientation'] using AirIMU or gt-truth in the dataconf
-
+                        rotation = motion_dataset.data['gt_orientation'] # Set data['gt_orientation'] using AirIMU or gt-truth in the dataconf
+                        
                         vel_dist = rotation[indices,:] * inference_state['net_vel'] - motion_dataset.data['velocity'][indices,:]  
                         net_vel = interp_xyz(gt_ts, vel_ts[:,0],  inference_state['net_vel'])
                         net_vel = rotation * net_vel
