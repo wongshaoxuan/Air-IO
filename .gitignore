@@ -39,6 +39,7 @@ visualize_gyro.py
 .*.swo
 ./datasets/.*.swp
 ./datasets/.*.swo
+./EuRoC/
 
 # C extensions
 *.so
