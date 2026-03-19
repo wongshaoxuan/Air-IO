@@ -1,4 +1,4 @@
-dataset: configs/datasets/EuRoC/Euroc_global.conf
+dataset: configs/datasets/EuRoC/Euroc_global.conf`
 device: cuda:0
 
 exp:
